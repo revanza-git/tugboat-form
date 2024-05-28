@@ -1,18 +1,62 @@
 "use client";
 import { Main } from "../pages/Form/main"; // Adjust the import path as necessary
 import { Detail } from "../pages/Form/detail";
-import { useEffect, useState } from "react";
 import "../styles/styles.scss";
+import { Fuel } from "@/pages/Form/fuel";
+import { Running } from "@/pages/Form/running";
+import Modal from "react-modal";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [formDetailData, setFormDetailData] = useState<string | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const handleKirimClick = () => {
+    const storedData = localStorage.getItem("formData");
+    const storedDataDetail = localStorage.getItem("formDataDetail");
+    const storedDataFuel = localStorage.getItem("formDataFuel");
+    const storedDataRunning = localStorage.getItem("formDataRunning");
+    if (storedData && storedDataDetail && storedDataFuel && storedDataRunning) {
+      const parsedData = {
+        formData: JSON.parse(storedData),
+        formDataDetail: JSON.parse(storedDataDetail),
+        formDataFuel: JSON.parse(storedDataFuel),
+        formDataRunning: JSON.parse(storedDataRunning),
+      };
+
+      // Call the dummy API with parsedData as payload
+      fetch("https://dummy-api.com/endpoint", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parsedData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("API response:", data);
+          setModalMessage("Send succeeded");
+          setModalIsOpen(true);
+        })
+        .catch((error) => {
+          console.error("API error:", error);
+          setModalMessage("Send failed, try again");
+          setModalIsOpen(true);
+        });
+    } else {
+      setModalMessage("Please fills all the form first");
+      setModalIsOpen(true);
+    }
+  };
 
   useEffect(() => {
-    const storedData = localStorage.getItem("formDetailData");
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setFormDetailData(parsedData);
-    }
+    const scrollHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const center = scrollHeight / 2 - windowHeight / 2;
+    window.scrollTo({
+      top: center,
+      behavior: "smooth",
+    });
   }, []);
 
   return (
@@ -58,8 +102,92 @@ export default function Home() {
             </summary>
             <Detail />
           </details>
+
+          <details className="question py-4 border-b border-grey-lighter">
+            <summary className="flex items-center font-bold">
+              Bahan Bakar
+              <button className="ml-auto">
+                <svg
+                  className="fill-current opacity-75 w-4 h-4 -mr-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                </svg>
+              </button>
+            </summary>
+            <Fuel />
+          </details>
+
+          <details className="question py-4 border-b border-grey-lighter">
+            <summary className="flex items-center font-bold">
+              Running Hour
+              <button className="ml-auto">
+                <svg
+                  className="fill-current opacity-75 w-4 h-4 -mr-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                </svg>
+              </button>
+            </summary>
+            <Running />
+          </details>
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded"
+            onClick={handleKirimClick}
+          >
+            Kirim
+          </button>
         </div>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Message Modal"
+        style={{
+          overlay: {
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+            transition: "opacity 0.2s ease-in-out", // Add transition effect
+          },
+          content: {
+            width: "300px",
+            height: "200px",
+            margin: "auto",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "10px",
+            backgroundColor: "#fff",
+            color: "#000",
+            transition: "all 0.3s ease-in-out", // Add transition effect
+          },
+        }}
+      >
+        <h2>{modalMessage}</h2>
+        <button
+          onClick={() => setModalIsOpen(false)}
+          style={{
+            marginTop: "20px",
+            padding: "10px",
+            backgroundColor: "#007BFF",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Close
+        </button>
+      </Modal>
     </main>
   );
 }

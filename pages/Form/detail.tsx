@@ -17,19 +17,19 @@ export const Detail: React.FC = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
-  const [formDetailData, setFormDetailData] = useState<IFormInput[]>([]);
+  const [formDataDetail, setFormDataDetail] = useState<IFormInput[]>([]);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("formDetailData");
+    const storedData = localStorage.getItem("formDataDetail");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      setFormDetailData(parsedData);
+      setFormDataDetail(parsedData);
     }
   }, []);
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     // Get the existing data from localStorage
-    const item = localStorage.getItem("formDetailData");
+    const item = localStorage.getItem("formDataDetail");
     const existingData = item ? JSON.parse(item) : [];
 
     // Add the new data to the existing data
@@ -39,10 +39,10 @@ export const Detail: React.FC = () => {
     ];
 
     // Save the updated data to localStorage
-    localStorage.setItem("formDetailData", JSON.stringify(newData));
+    localStorage.setItem("formDataDetail", JSON.stringify(newData));
 
-    // Update the formDetailData state
-    setFormDetailData(newData);
+    // Update the formDataDetail state
+    setFormDataDetail(newData);
 
     reset();
   };
@@ -62,7 +62,7 @@ export const Detail: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {formDetailData.map((data, index) => (
+              {formDataDetail.map((data, index) => (
                 <tr key={index}>
                   <td className="text-left">{data["waktu-mulai"]}</td>
                   <td className="text-left">{data["waktu-selesai"]}</td>
@@ -175,6 +175,17 @@ export const Detail: React.FC = () => {
             className="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Simpan
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.removeItem("formDataDetail");
+              setFormDataDetail([]);
+              reset();
+            }}
+            className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-4"
+          >
+            Reset
           </button>
         </div>
       </form>
