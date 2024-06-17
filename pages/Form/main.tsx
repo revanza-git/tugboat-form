@@ -1,6 +1,8 @@
 "use client";
 import * as React from "react";
+import { useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import RefreshContext from "@/contexts/refreshContext";
 
 interface IFormInput {
   "first-name": string;
@@ -11,6 +13,7 @@ interface IFormInput {
 }
 
 export const Main: React.FC = () => {
+  const { setRefresh } = useContext(RefreshContext);
   const {
     register,
     handleSubmit,
@@ -22,6 +25,7 @@ export const Main: React.FC = () => {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     localStorage.setItem("formData", JSON.stringify(data));
     setIsSubmitted(true); // Set submission status to true
+    setRefresh(true);
   };
 
   return (
@@ -48,6 +52,7 @@ export const Main: React.FC = () => {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900">
             <span>Nama Kapal</span>
+
             <select
               {...register("namaKapal", {
                 required: "Please select an item in the list.",
@@ -55,11 +60,13 @@ export const Main: React.FC = () => {
               aria-invalid={errors["namaKapal"] ? "true" : "false"}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               disabled={isSubmitted} // Disable select if form is submitted
+              // Update selectedShip when an option is selected
             >
               <option value="4201">Patra Tunda 4201</option>
               <option value="4202">Patra Tunda 4202</option>
               <option value="aqua">Aqua Harbour</option>
             </select>
+
             {errors["namaKapal"] && (
               <p role="alert">{errors["namaKapal"]?.message}</p>
             )}
@@ -126,6 +133,7 @@ export const Main: React.FC = () => {
               onClick={() => {
                 setIsSubmitted(false);
                 localStorage.removeItem("formData");
+                setRefresh(true);
               }}
               className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 ml-2 text-center"
             >

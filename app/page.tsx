@@ -5,24 +5,37 @@ import "../styles/styles.scss";
 import { Fuel } from "@/pages/Form/fuel";
 import { Running } from "@/pages/Form/running";
 import Modal from "react-modal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Tank } from "@/pages/Form/tank";
+import { RefreshProvider } from "@/contexts/refreshContext";
 
 export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   const handleKirimClick = () => {
     const storedData = localStorage.getItem("formData");
     const storedDataDetail = localStorage.getItem("formDataDetail");
     const storedDataFuel = localStorage.getItem("formDataFuel");
     const storedDataRunning = localStorage.getItem("formDataRunning");
-    if (storedData && storedDataDetail && storedDataFuel && storedDataRunning) {
+    const storedDataTank = localStorage.getItem("formDataTank");
+    if (
+      storedData &&
+      storedDataDetail &&
+      storedDataFuel &&
+      storedDataRunning &&
+      storedDataTank
+    ) {
       const parsedData = {
         formData: JSON.parse(storedData),
         formDataDetail: JSON.parse(storedDataDetail),
         formDataFuel: JSON.parse(storedDataFuel),
         formDataRunning: JSON.parse(storedDataRunning),
+        formDataTank: JSON.parse(storedDataTank),
       };
+
+      console.log(JSON.stringify(parsedData));
 
       // Call the dummy API with parsedData as payload
       fetch("https://dummy-api.com/endpoint", {
@@ -70,70 +83,87 @@ export default function Home() {
             />
           </div>
           <h2 className="text-center text-2xl font-bold mb-6">Daily Report</h2>
+          <RefreshProvider value={{ refresh, setRefresh }}>
+            <details className="question py-4 border-b border-grey-lighter">
+              <summary className="flex items-center font-bold">
+                Data Kapal
+                <button className="ml-auto">
+                  <svg
+                    className="fill-current opacity-75 w-4 h-4 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                  </svg>
+                </button>
+              </summary>
+              <Main />
+            </details>
 
-          <details className="question py-4 border-b border-grey-lighter">
-            <summary className="flex items-center font-bold">
-              Data Kapal
-              <button className="ml-auto">
-                <svg
-                  className="fill-current opacity-75 w-4 h-4 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
-                </svg>
-              </button>
-            </summary>
-            <Main />
-          </details>
+            <details className="question py-4 border-b border-grey-lighter">
+              <summary className="flex items-center font-bold">
+                Data Kegiatan
+                <button className="ml-auto">
+                  <svg
+                    className="fill-current opacity-75 w-4 h-4 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                  </svg>
+                </button>
+              </summary>
+              <Detail />
+            </details>
 
-          <details className="question py-4 border-b border-grey-lighter">
-            <summary className="flex items-center font-bold">
-              Data Kegiatan
-              <button className="ml-auto">
-                <svg
-                  className="fill-current opacity-75 w-4 h-4 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
-                </svg>
-              </button>
-            </summary>
-            <Detail />
-          </details>
+            <details className="question py-4 border-b border-grey-lighter">
+              <summary className="flex items-center font-bold">
+                Bahan Bakar
+                <button className="ml-auto">
+                  <svg
+                    className="fill-current opacity-75 w-4 h-4 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                  </svg>
+                </button>
+              </summary>
+              <Fuel />
+            </details>
 
-          <details className="question py-4 border-b border-grey-lighter">
-            <summary className="flex items-center font-bold">
-              Bahan Bakar
-              <button className="ml-auto">
-                <svg
-                  className="fill-current opacity-75 w-4 h-4 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
-                </svg>
-              </button>
-            </summary>
-            <Fuel />
-          </details>
+            <details className="question py-4 border-b border-grey-lighter">
+              <summary className="flex items-center font-bold">
+                Running Hour
+                <button className="ml-auto">
+                  <svg
+                    className="fill-current opacity-75 w-4 h-4 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                  </svg>
+                </button>
+              </summary>
+              <Running />
+            </details>
 
-          <details className="question py-4 border-b border-grey-lighter">
-            <summary className="flex items-center font-bold">
-              Running Hour
-              <button className="ml-auto">
-                <svg
-                  className="fill-current opacity-75 w-4 h-4 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
-                </svg>
-              </button>
-            </summary>
-            <Running />
-          </details>
+            <details className="question py-4 border-b border-grey-lighter">
+              <summary className="flex items-center font-bold">
+                Sounding Tanki & Kapasitas
+                <button className="ml-auto">
+                  <svg
+                    className="fill-current opacity-75 w-4 h-4 -mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+                  </svg>
+                </button>
+              </summary>
+              <Tank />
+            </details>
+          </RefreshProvider>
         </div>
 
         <div className="flex justify-center">
