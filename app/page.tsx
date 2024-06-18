@@ -40,7 +40,7 @@ export default function Home() {
       console.log(JSON.stringify(parsedData));
 
       // Call the dummy API with parsedData as payload
-      fetch("https://localhost:44317/Tugboat/ship-report", {
+      fetch(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
