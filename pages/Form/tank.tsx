@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface IFormInput {
-  "tank-services": string;
+  TankService: string;
   "1p": string;
   "1s": string;
   "2c": string;
@@ -17,8 +17,8 @@ interface IFormInput {
   "3s": string;
   "4p": string;
   "4s": string;
-  "service-p": string;
-  "service-s": string;
+  TankServiceP: string;
+  TankServiceS: string;
 }
 
 export const Tank: React.FC = () => {
@@ -31,7 +31,10 @@ export const Tank: React.FC = () => {
   const { refresh, setRefresh } = useContext(RefreshContext);
 
   const [isSubmitted, setIsSubmitted] = React.useState(false); // Track submission status
-  const formData = localStorage.getItem("formData");
+  let formData;
+  if (typeof window !== "undefined") {
+    formData = localStorage.getItem("formData");
+  }
   const parsedFormData = formData ? JSON.parse(formData) : null;
   const namaKapal = parsedFormData ? parsedFormData.namaKapal : null;
 
@@ -43,7 +46,14 @@ export const Tank: React.FC = () => {
   }, [refresh, setRefresh]);
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    localStorage.setItem("formDataTank", JSON.stringify(data));
+    // Convert the data object to an array of objects
+    const dataArray = Object.entries(data).map(([key, value]) => ({
+      soundingTankCode: key,
+      usage: value,
+    }));
+
+    // Store the array in localStorage
+    localStorage.setItem("formDataTankActivity", JSON.stringify(dataArray));
     setIsSubmitted(true); // Set submission status to true
   };
 
@@ -70,19 +80,19 @@ export const Tank: React.FC = () => {
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 <span>Tank Services*</span>
                 <input
-                  {...register("tank-services", {
+                  {...register("TankService", {
                     required: "Please fill in this field.",
                   })}
-                  aria-invalid={errors["tank-services"] ? "true" : "false"}
+                  aria-invalid={errors["TankService"] ? "true" : "false"}
                   type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   disabled={isSubmitted} // Disable input if form is submitted
                   defaultValue="0"
                 />
               </label>
-              {errors["tank-services"] && (
+              {errors["TankService"] && (
                 <p role="alert" className="text-red-500 text-xs italic">
-                  {errors["tank-services"]?.message}
+                  {errors["TankService"]?.message}
                 </p>
               )}
             </div>
@@ -401,10 +411,10 @@ export const Tank: React.FC = () => {
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 <span>Tank Service P - 84 cm (Liter)</span>
                 <input
-                  {...register("service-p", {
+                  {...register("TankServiceP", {
                     required: "Please fill in this field.",
                   })}
-                  aria-invalid={errors["service-p"] ? "true" : "false"}
+                  aria-invalid={errors["TankServiceP"] ? "true" : "false"}
                   placeholder="Type Here..."
                   type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -412,9 +422,9 @@ export const Tank: React.FC = () => {
                   defaultValue="0"
                 />
               </label>
-              {errors["service-p"] && (
+              {errors["TankServiceP"] && (
                 <p role="alert" className="text-red-500 text-xs italic">
-                  {errors["service-p"]?.message}
+                  {errors["TankServiceP"]?.message}
                 </p>
               )}
             </div>
@@ -423,10 +433,10 @@ export const Tank: React.FC = () => {
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 <span>Tank Service S - 77,8 cm (Liter)</span>
                 <input
-                  {...register("service-s", {
+                  {...register("TankServiceS", {
                     required: "Please fill in this field.",
                   })}
-                  aria-invalid={errors["service-s"] ? "true" : "false"}
+                  aria-invalid={errors["TankServiceS"] ? "true" : "false"}
                   placeholder="Type Here..."
                   type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -434,9 +444,9 @@ export const Tank: React.FC = () => {
                   defaultValue="0"
                 />
               </label>
-              {errors["service-s"] && (
+              {errors["TankServiceS"] && (
                 <p role="alert" className="text-red-500 text-xs italic">
-                  {errors["service-s"]?.message}
+                  {errors["TankServiceS"]?.message}
                 </p>
               )}
             </div>
@@ -481,19 +491,19 @@ export const Tank: React.FC = () => {
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 <span>Tank Services (Liter)</span>
                 <input
-                  {...register("tank-services", {
+                  {...register("TankService", {
                     required: "Please fill in this field.",
                   })}
-                  aria-invalid={errors["tank-services"] ? "true" : "false"}
+                  aria-invalid={errors["TankService"] ? "true" : "false"}
                   type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   disabled={isSubmitted} // Disable input if form is submitted
                   defaultValue="0"
                 />
               </label>
-              {errors["tank-services"] && (
+              {errors["TankService"] && (
                 <p role="alert" className="text-red-500 text-xs italic">
-                  {errors["tank-services"]?.message}
+                  {errors["TankService"]?.message}
                 </p>
               )}
             </div>

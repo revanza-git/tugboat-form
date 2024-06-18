@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import RefreshContext from "@/contexts/refreshContext";
 
 interface IFormInput {
+  author: string;
   "first-name": string;
   "tanggal-kegiatan": string;
   namaKapal: string;
@@ -31,6 +32,26 @@ export const Main: React.FC = () => {
   return (
     <div className="bg-white p-8">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-900">
+            <span>Nama Pengisi Laporan</span>
+            <input
+              {...register("author", {
+                required: "Please fill in this field.",
+              })}
+              aria-invalid={errors["author"] ? "true" : "false"}
+              placeholder="Type Here..."
+              type="text"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              disabled={isSubmitted} // Disable input if form is submitted
+            />
+          </label>
+          {errors["author"] && (
+            <p role="alert" className="text-red-500 text-xs italic">
+              {errors["author"]?.message}
+            </p>
+          )}
+        </div>
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900">
             <span>Tanggal Kegiatan</span>

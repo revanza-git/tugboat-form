@@ -5,7 +5,7 @@ import "../styles/styles.scss";
 import { Fuel } from "@/pages/Form/fuel";
 import { Running } from "@/pages/Form/running";
 import Modal from "react-modal";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Tank } from "@/pages/Form/tank";
 import { RefreshProvider } from "@/contexts/refreshContext";
 
@@ -13,56 +13,67 @@ export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleKirimClick = () => {
+    setIsSubmitting(true);
     const storedData = localStorage.getItem("formData");
     const storedDataDetail = localStorage.getItem("formDataDetail");
     const storedDataFuel = localStorage.getItem("formDataFuel");
     const storedDataRunning = localStorage.getItem("formDataRunning");
-    const storedDataTank = localStorage.getItem("formDataTank");
+    const storedDataTankActivity = localStorage.getItem("formDataTankActivity");
     if (
       storedData &&
       storedDataDetail &&
       storedDataFuel &&
       storedDataRunning &&
-      storedDataTank
+      storedDataTankActivity
     ) {
       const parsedData = {
         formData: JSON.parse(storedData),
         formDataDetail: JSON.parse(storedDataDetail),
         formDataFuel: JSON.parse(storedDataFuel),
         formDataRunning: JSON.parse(storedDataRunning),
-        formDataTank: JSON.parse(storedDataTank),
+        formDataTankActivity: JSON.parse(storedDataTankActivity),
       };
 
       console.log(JSON.stringify(parsedData));
 
       // Call the dummy API with parsedData as payload
-      fetch("https://dummy-api.com/endpoint", {
+      fetch("https://localhost:44317/Tugboat/ship-report", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(parsedData),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("API response:", data);
+        .then((response) => {
+          console.log("Response status:", response.status);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response;
+        })
+        .then(() => {
           setModalMessage("Send succeeded");
           setModalIsOpen(true);
+          setIsSubmitting(false);
         })
-        .catch((error) => {
-          console.error("API error:", error);
+        .catch(() => {
           setModalMessage("Send failed, try again");
           setModalIsOpen(true);
+          setIsSubmitting(false);
         });
     } else {
       setModalMessage("Please fills all the form first");
       setModalIsOpen(true);
+      setIsSubmitting(false);
     }
   };
 
   useEffect(() => {
+    localStorage.clear();
+    Modal.setAppElement("body");
     const scrollHeight = document.documentElement.scrollHeight;
     const windowHeight = window.innerHeight;
     const center = scrollHeight / 2 - windowHeight / 2;
@@ -171,7 +182,7 @@ export default function Home() {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded"
             onClick={handleKirimClick}
           >
-            Kirim
+            {isSubmitting ? "Loading..." : "Kirim"}
           </button>
         </div>
       </div>
