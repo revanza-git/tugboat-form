@@ -166,3 +166,5 @@ export const Main: React.FC = () => {
     </div>
   );
 };
+
+export default Main;

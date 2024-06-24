@@ -118,3 +118,5 @@ export const Fuel: React.FC = () => {
     </div>
   );
 };
+
+export default Fuel;

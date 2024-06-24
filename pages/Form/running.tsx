@@ -139,3 +139,5 @@ export const Running: React.FC = () => {
     </div>
   );
 };
+
+export default Running;

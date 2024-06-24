@@ -600,3 +600,5 @@ export const Tank: React.FC = () => {
     }
   }
 };
+
+export default Tank;

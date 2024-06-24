@@ -192,3 +192,5 @@ export const Detail: React.FC = () => {
     </div>
   );
 };
+
+export default Detail;
