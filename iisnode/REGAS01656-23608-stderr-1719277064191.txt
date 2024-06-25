@@ -1,0 +1,2 @@
+Application has thrown an uncaught exception and is terminated:
+Error: EPERM: operation not permitted, open 'C:\inetpub\tugboat-form\.next\trace'

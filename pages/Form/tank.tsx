@@ -1,7 +1,7 @@
 "use client";
 import RefreshContext from "@/contexts/refreshContext";
 import * as React from "react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface IFormInput {
@@ -28,7 +28,7 @@ export const Tank: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
 
-  const { refresh, setRefresh } = useContext(RefreshContext);
+  // const { refresh, setRefresh } = useContext(RefreshContext);
 
   const [isSubmitted, setIsSubmitted] = React.useState(false); // Track submission status
   let formData;
@@ -37,13 +37,11 @@ export const Tank: React.FC = () => {
   }
   const parsedFormData = formData ? JSON.parse(formData) : null;
   const namaKapal = parsedFormData ? parsedFormData.namaKapal : null;
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (refresh) {
-      // Reset the refresh state
-      setRefresh(false);
-    }
-  }, [refresh, setRefresh]);
+    setIsClient(true);
+  }, []);
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     // Convert the data object to an array of objects
@@ -58,23 +56,23 @@ export const Tank: React.FC = () => {
   };
 
   if (!namaKapal) {
-    if (refresh) {
-      return null;
-    } else {
-      return (
-        <div className="bg-white p-8">
+    return (
+      <div className="bg-white p-8">
+        {isClient ? (
           <h1 className="text-center text-xl font-semibold text-red-600">
             Mohon Data Kapal diisi terlebih dahulu
           </h1>
-        </div>
-      );
-    }
+        ) : (
+          <h1 className="text-center text-xl font-semibold text-red-600">
+            Form Loading...
+          </h1>
+        )}
+      </div>
+    );
   } else if (namaKapal == "4201") {
-    if (refresh) {
-      return null;
-    } else {
-      return (
-        <div className="bg-white p-8">
+    return (
+      <div className="bg-white p-8">
+        {isClient ? (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -184,15 +182,17 @@ export const Tank: React.FC = () => {
               )}
             </div>
           </form>
-        </div>
-      );
-    }
+        ) : (
+          <h1 className="text-center text-xl font-semibold text-red-600">
+            Form Loading...
+          </h1>
+        )}
+      </div>
+    );
   } else if (namaKapal == "4202") {
-    if (refresh) {
-      return null;
-    } else {
-      return (
-        <div className="bg-white p-8">
+    return (
+      <div className="bg-white p-8">
+        {isClient ? (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -477,15 +477,17 @@ export const Tank: React.FC = () => {
               )}
             </div>
           </form>
-        </div>
-      );
-    }
+        ) : (
+          <h1 className="text-center text-xl font-semibold text-red-600">
+            Form Loading...
+          </h1>
+        )}
+      </div>
+    );
   } else {
-    if (refresh) {
-      return null;
-    } else {
-      return (
-        <div className="bg-white p-8">
+    return (
+      <div className="bg-white p-8">
+        {isClient ? (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -595,9 +597,13 @@ export const Tank: React.FC = () => {
               )}
             </div>
           </form>
-        </div>
-      );
-    }
+        ) : (
+          <h1 className="text-center text-xl font-semibold text-red-600">
+            Form Loading...
+          </h1>
+        )}
+      </div>
+    );
   }
 };
 

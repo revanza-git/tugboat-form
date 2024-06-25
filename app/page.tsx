@@ -37,8 +37,6 @@ export default function Home() {
         formDataTankActivity: JSON.parse(storedDataTankActivity),
       };
 
-      console.log(JSON.stringify(parsedData));
-
       // Call the dummy API with parsedData as payload
       fetch(`${process.env.NEXT_PUBLIC_APP_API_URL}`, {
         method: "POST",
@@ -48,7 +46,6 @@ export default function Home() {
         body: JSON.stringify(parsedData),
       })
         .then((response) => {
-          console.log("Response status:", response.status);
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -58,6 +55,7 @@ export default function Home() {
           setModalMessage("Send succeeded");
           setModalIsOpen(true);
           setIsSubmitting(false);
+          setTimeout(() => window.location.reload(), 2000); // Adjust the delay as needed
         })
         .catch(() => {
           setModalMessage("Send failed, try again");
@@ -84,17 +82,20 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 lg:p-24">
-      <div className="z-10 w-full max-w-5xl rounded-lg bg-white p-8 shadow-lg lg:flex-col lg:flex lg:items-center lg:justify-between lg:p-12">
-        <div className="mb-6 lg:mb-0 lg:w-1/2">
-          <div className="flex justify-center mb-4">
-            <img
-              src="/images/logo-nr.png"
-              alt="PERTAMINA NUSANTARA REGAS Logo"
-            />
-          </div>
-          <h2 className="text-center text-2xl font-bold mb-6">Daily Report</h2>
-          <RefreshProvider value={{ refresh, setRefresh }}>
+    <RefreshProvider value={{ refresh, setRefresh }}>
+      <main className="flex min-h-screen flex-col items-center justify-center p-4 lg:p-24">
+        <div className="z-10 w-full max-w-5xl rounded-lg bg-white p-8 shadow-lg lg:flex-col lg:flex lg:items-center lg:justify-between lg:p-12">
+          <div className="mb-6 lg:mb-0 lg:w-1/2">
+            <div className="flex justify-center mb-4">
+              <img
+                src="/images/logo-nr.png"
+                alt="PERTAMINA NUSANTARA REGAS Logo"
+              />
+            </div>
+            <h2 className="text-center text-2xl font-bold mb-6">
+              Daily Report
+            </h2>
+
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
                 Data Kapal
@@ -174,61 +175,61 @@ export default function Home() {
               </summary>
               <Tank />
             </details>
-          </RefreshProvider>
+          </div>
+
+          <div className="flex justify-center">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded"
+              onClick={handleKirimClick}
+            >
+              {isSubmitting ? "Loading..." : "Kirim"}
+            </button>
+          </div>
         </div>
 
-        <div className="flex justify-center">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-5 rounded"
-            onClick={handleKirimClick}
-          >
-            {isSubmitting ? "Loading..." : "Kirim"}
-          </button>
-        </div>
-      </div>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Message Modal"
-        style={{
-          overlay: {
-            zIndex: 1000,
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
-            transition: "opacity 0.2s ease-in-out", // Add transition effect
-          },
-          content: {
-            width: "300px",
-            height: "200px",
-            margin: "auto",
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "10px",
-            backgroundColor: "#fff",
-            color: "#000",
-            transition: "all 0.3s ease-in-out", // Add transition effect
-          },
-        }}
-      >
-        <h2>{modalMessage}</h2>
-        <button
-          onClick={() => setModalIsOpen(false)}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+          contentLabel="Message Modal"
           style={{
-            marginTop: "20px",
-            padding: "10px",
-            backgroundColor: "#007BFF",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
+            overlay: {
+              zIndex: 1000,
+              backgroundColor: "rgba(0, 0, 0, 0.75)",
+              transition: "opacity 0.2s ease-in-out", // Add transition effect
+            },
+            content: {
+              width: "300px",
+              height: "200px",
+              margin: "auto",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "10px",
+              backgroundColor: "#fff",
+              color: "#000",
+              transition: "all 0.3s ease-in-out", // Add transition effect
+            },
           }}
         >
-          Close
-        </button>
-      </Modal>
-    </main>
+          <h2>{modalMessage}</h2>
+          <button
+            onClick={() => setModalIsOpen(false)}
+            style={{
+              marginTop: "20px",
+              padding: "10px",
+              backgroundColor: "#007BFF",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Close
+          </button>
+        </Modal>
+      </main>
+    </RefreshProvider>
   );
 }

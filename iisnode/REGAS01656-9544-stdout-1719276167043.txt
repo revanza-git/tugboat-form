@@ -1,0 +1,17 @@
+> Ready on http://localhost:\\.\pipe\c78e4f11-67f7-43ae-ab0f-245fcf90ebd5
+ ○ Compiling / ...
+ ✓ Compiled / in 2.4s (573 modules)
+ GET / 200 in 2592ms
+ GET / 200 in 40ms
+ GET / 200 in 41ms
+ GET / 200 in 62ms
+ GET / 200 in 48ms
+ GET / 200 in 34ms
+ GET / 200 in 65ms
+ GET / 200 in 59ms
+ GET / 200 in 18ms
+ GET / 200 in 45ms
+ GET / 200 in 23ms
+ GET / 200 in 20ms
+ GET / 200 in 17ms
+ GET / 200 in 16ms
