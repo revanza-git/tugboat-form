@@ -1,8 +1,0 @@
-> Ready on http://localhost:\\.\pipe\7ffd9861-8e05-4991-8974-1c43035d493a
- ○ Compiling / ...
- ✓ Compiled / in 2.5s (573 modules)
- GET / 200 in 2702ms
- GET / 200 in 68ms
- ✓ Compiled /favicon.ico in 148ms (311 modules)
- GET /favicon.ico 200 in 210ms
- ✓ Compiled in 264ms (551 modules)

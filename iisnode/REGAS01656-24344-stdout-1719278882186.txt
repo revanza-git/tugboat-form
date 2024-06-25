@@ -1,5 +1,0 @@
-> Ready on http://localhost:\\.\pipe\5afb785f-b4ee-4772-ab2e-a93660c58ec0
- ○ Compiling / ...
- ✓ Compiled / in 2.6s (573 modules)
- GET / 200 in 2767ms
- GET / 200 in 30ms
