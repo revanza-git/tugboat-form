@@ -118,20 +118,22 @@ export const Main: React.FC = () => {
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900">
             <span>Posisi</span>
-            <select
+            <input
               {...register("posisi", {
-                required: "Please select an item in the list.",
+                required: "Please fill in this field.",
               })}
               aria-invalid={errors["posisi"] ? "true" : "false"}
+              placeholder="Type Here..."
+              type="text"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              disabled={isSubmitted} // Disable select if form is submitted
-            >
-              <option value="Nusantara Regas">Nusantara Regas</option>
-            </select>
-            {errors["posisi"] && (
-              <p role="alert">{errors["posisi"]?.message}</p>
-            )}
+              disabled={isSubmitted} // Disable input if form is submitted
+            />
           </label>
+          {errors["posisi"] && (
+            <p role="alert" className="text-red-500 text-xs italic">
+              {errors["posisi"]?.message}
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end">
