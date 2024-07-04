@@ -7,6 +7,7 @@ interface IFormInput {
   ae1: string;
   ae2: string;
   ae3: string;
+  fifi: string;
 }
 
 export const Running: React.FC = () => {
@@ -104,6 +105,28 @@ export const Running: React.FC = () => {
           {errors["ae3"] && (
             <p role="alert" className="text-red-500 text-xs italic">
               {errors["ae3"]?.message}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-900">
+            <span>FIFI*</span>
+            <input
+              {...register("fifi", {
+                required: "Please fill in this field.",
+              })}
+              aria-invalid={errors["fifi"] ? "true" : "false"}
+              placeholder="Type Here..."
+              type="time"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              disabled={isSubmitted} // Disable input if form is submitted
+              defaultValue="00:00"
+            />
+          </label>
+          {errors["fifi"] && (
+            <p role="alert" className="text-red-500 text-xs italic">
+              {errors["fifi"]?.message}
             </p>
           )}
         </div>

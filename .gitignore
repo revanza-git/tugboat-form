@@ -15,6 +15,7 @@
 
 # production
 /build
+iisnode
 
 # misc
 .DS_Store
