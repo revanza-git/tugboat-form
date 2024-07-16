@@ -93,12 +93,12 @@ export default function Home() {
               />
             </div>
             <h2 className="text-center text-2xl font-bold mb-6">
-              Daily Report
+              <p className="black-text">Daily Report</p>
             </h2>
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                Data Kapal
+                <p className="black-text">Data Kapal</p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -114,7 +114,7 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                Data Kegiatan
+                <p className="black-text">Data Kegiatan</p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -130,7 +130,7 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                Bahan Bakar
+                <p className="black-text">Bahan Bakar</p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -146,7 +146,7 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                Running Hour
+                <p className="black-text">Running Hour</p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -162,7 +162,7 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                Sounding Tanki & Kapasitas
+                <p className="black-text">Sounding Tanki & Kapasitas</p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"

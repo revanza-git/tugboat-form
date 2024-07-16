@@ -28,7 +28,7 @@ export const Tank: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<IFormInput>();
 
-  // const { refresh, setRefresh } = useContext(RefreshContext);
+  const { refresh, setRefresh } = useContext(RefreshContext);
 
   const [isSubmitted, setIsSubmitted] = React.useState(false); // Track submission status
   let formData;
@@ -40,8 +40,12 @@ export const Tank: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    if (refresh) {
+      // After refreshing the form, set refresh to false
+      setRefresh(false);
+    }
     setIsClient(true);
-  }, []);
+  }, [refresh, setRefresh]);
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     // Convert the data object to an array of objects
