@@ -1,8 +1,13 @@
 const { createServer } = require("http");
 const next = require("next");
 
+const path = require("path");
+
+// Log the directory to confirm the location of server.js
+console.log("Current Directory:", __dirname);
+
 // Configure the Next.js app with the option to disable dev mode
-const app = next({ dev: process.env.NODE_ENV !== 'production' });
+const app = next({ dev: process.env.NODE_ENV !== 'production'});
 const handle = app.getRequestHandler();
 
 // Use environment variables for host and port, with defaults as fallbacks

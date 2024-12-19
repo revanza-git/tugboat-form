@@ -72,6 +72,14 @@ export default function Home() {
   useEffect(() => {
     localStorage.clear();
     Modal.setAppElement("body");
+
+    const theme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    document.body.setAttribute("data-theme", theme);
+
     const scrollHeight = document.documentElement.scrollHeight;
     const windowHeight = window.innerHeight;
     const center = scrollHeight / 2 - windowHeight / 2;
@@ -88,17 +96,21 @@ export default function Home() {
           <div className="mb-6 lg:mb-0 lg:w-1/2">
             <div className="flex justify-center mb-4">
               <img
-                src="/images/logo-nr.png"
+                src="/tugboat/form/images/logo-nr.png"
                 alt="PERTAMINA NUSANTARA REGAS Logo"
               />
             </div>
             <h2 className="text-center text-2xl font-bold mb-6">
-              <p className="black-text">Daily Report</p>
+              <p className="text-balance" style={{ color: "black" }}>
+                Daily Report
+              </p>
             </h2>
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                <p className="black-text">Data Kapal</p>
+                <p className="text-balance" style={{ color: "black" }}>
+                  Data Kapal
+                </p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -114,7 +126,9 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                <p className="black-text">Data Kegiatan</p>
+                <p className="text-balance" style={{ color: "black" }}>
+                  Data Kegiatan
+                </p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -130,7 +144,9 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                <p className="black-text">Bahan Bakar</p>
+                <p className="text-balance" style={{ color: "black" }}>
+                  Bahan Bakar
+                </p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -146,7 +162,9 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                <p className="black-text">Running Hour</p>
+                <p className="text-balance" style={{ color: "black" }}>
+                  Running Hour
+                </p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"
@@ -162,7 +180,9 @@ export default function Home() {
 
             <details className="question py-4 border-b border-grey-lighter">
               <summary className="flex items-center font-bold">
-                <p className="black-text">Sounding Tanki & Kapasitas</p>
+                <p className="text-balance" style={{ color: "black" }}>
+                  Sounding Tanki & Kapasitas
+                </p>
                 <button className="ml-auto">
                   <svg
                     className="fill-current opacity-75 w-4 h-4 -mr-1"

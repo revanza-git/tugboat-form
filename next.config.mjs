@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {basePath: '/tugboat/form'};
 
 
 export default nextConfig;
